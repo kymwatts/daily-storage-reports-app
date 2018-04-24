@@ -10,13 +10,15 @@ RUN mkdir /app && \
     cd /app && \
     unzip /tmp/master.zip -d /app && \
     rm -f /tmp/master.zip && \
-    pip install -r /app/daily_storage_reports-master/requirements.txt
+    cat /app/daily-storage-reports-app-master/requirements.txt &&\
+    pip install -r /app/daily-storage-reports-app-master/requirements.txt
 
-ADD config.json /app/daily_storage_reports-master/config.json
-ADD run.sh /run.sh
+ADD config.json /app/daily-storage-reports-app-master/config.json
+ADD run.sh /app/daily-storage-reports-app-master/run.sh
 
-RUN cd /app/daily_storage_reports-master && ./setup-daily-reports.sh
+RUN chmod +x /app/daily-storage-reports-app-master/run.sh
+RUN cd /app/daily-storage-reports-app-master && ./setup-daily-reports.sh
 
-EXPOSE 8080
-WORKDIR /app/daily_storage_reports-master
-CMD ["/run.sh"]
+EXPOSE 8081
+WORKDIR /app/daily-storage-reports-app-master
+CMD ["/app/daily-storage-reports-app-master/run.sh"]
